@@ -1,3 +1,3 @@
 export interface SmsGateway {
-    sendSms(mobileNo: number, otp:number): Promise<void>;
+    send(mobileNo: number, variables:any[]): Promise<void>;
 }

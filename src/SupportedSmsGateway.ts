@@ -1,0 +1,1 @@
+export type SupportedSmsGateway = '2FACTOR';

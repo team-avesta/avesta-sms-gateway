@@ -1,20 +1,21 @@
-import { TwoFactor } from "./2factor";
+import { TwoFactor } from './2factor';
+import { SupportedSmsGateway } from './SupportedSmsGateway';
+import { SmsGatewayConfig } from './SmsGatewayConfig';
 
-const sendOTPSms = (mobileNo: number, otp: number): Promise<any> => {
-    const gateway = getSmsGateway();
-    return gateway.sendSms(mobileNo, otp);
-};
+const sendSms = (gatewayName: SupportedSmsGateway, config: SmsGatewayConfig, mobileNo: number, variables: any[]): Promise<any> => {
+    const gateway = getSmsGateway(gatewayName, config);
+    return gateway.send(mobileNo, variables);
+}
 
-function getSmsGateway() {
-    const activeGateway = process.env.ACTIVE_SMS_GATEWAY;
-    switch (activeGateway) {
+function getSmsGateway(gatewayName: SupportedSmsGateway, config: SmsGatewayConfig) {
+    switch (gatewayName) {
         case '2FACTOR':
-            return new TwoFactor();
+            return new TwoFactor(config);
         default:
             throw new Error("SMS gateway is not configured.");
     }
 }
 
 export {
-	sendOTPSms
+    sendSms
 };

@@ -1,22 +1,27 @@
-import { SmsGateway } from './SmsGateway';
 import httpRequest from 'axios';
+import { SmsGateway } from './SmsGateway';
+import { TwoFactorConfig } from './2factorConfig';
 
 export class TwoFactor implements SmsGateway {
     url: string;
-    templateName: string;
     senderId: string;
-    constructor() {
-        this.url = process.env.TWOFACTOR_URL || '';
-        this.templateName = process.env.TWOFACTOR_TEMPLATE_NAME || '';
-        this.senderId = process.env.SMS_SENDER_ID || '';
+    template: string;
+    
+    constructor(config: TwoFactorConfig) {
+        this.url = config.url;
+        this.senderId = config.senderId;
+        this.template = config.template;
     }
 
-    sendSms(mobileNo: number, otp: number): Promise<any> {
-        return httpRequest.post(this.url, {
+    send(mobileNo: number, variables: any[]): Promise<any> {
+        const options = {
             To: mobileNo,
             From: this.senderId,
-            TemplateName: this.templateName,
-            VAR1: otp
-        });
+            TemplateName: this.template
+        }
+        if(variables.length > 0) {
+            Object.assign(options,...variables);
+        }
+        return httpRequest.post(this.url, options);
     }
 }
