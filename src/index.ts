@@ -1,21 +1,9 @@
-import { TwoFactor } from './2factor';
-import { SupportedSmsGateway } from './SupportedSmsGateway';
-import { SmsGatewayConfig } from './SmsGatewayConfig';
+import { SmsGateway } from "./SmsGateway";
 
-const sendSms = (gatewayName: SupportedSmsGateway, config: SmsGatewayConfig, mobileNo: number, variables: any[]): Promise<any> => {
-    const gateway = getSmsGateway(gatewayName, config);
-    return gateway.send(mobileNo, variables);
-}
+export class SmsSender {
+    constructor(private smsGateway:SmsGateway) {}
 
-function getSmsGateway(gatewayName: SupportedSmsGateway, config: SmsGatewayConfig) {
-    switch (gatewayName) {
-        case '2FACTOR':
-            return new TwoFactor(config);
-        default:
-            throw new Error("SMS gateway is not configured.");
+    sendSms(mobile:number, variables: object[]):Promise<any> {
+        return this.smsGateway.send(mobile, variables);
     }
 }
-
-export {
-    sendSms
-};

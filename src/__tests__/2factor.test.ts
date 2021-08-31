@@ -1,13 +1,13 @@
 import axios from 'axios';
-import { sendSms } from '../index'
-import { TwoFactorConfig } from '../2factorConfig';
+import { SmsSender } from '../index'
+import { TwoFactor } from '../2factor/2factor';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 describe('2Factor tests', () => {
 
-  mockedAxios.post.mockResolvedValue(Promise.resolve({ success: true }));
+  mockedAxios.request.mockResolvedValue(Promise.resolve({ success: true }));
 
   const twoFactoConfig = {
     url: 'https://www.google.com',
@@ -15,8 +15,11 @@ describe('2Factor tests', () => {
     template: 'my-template',
   };
 
-  async function assert2FactorSuccess(config: TwoFactorConfig, mobileNo: number, dynamicVar: any[]) {
-    const result = await sendSms('2FACTOR', config, mobileNo, dynamicVar);
+  const twoFactor = new TwoFactor(twoFactoConfig);
+  const smsSender = new SmsSender(twoFactor);
+
+  async function assert2FactorSuccess(mobileNo: number, dynamicVar: object[]) {
+    const result = await smsSender.sendSms(mobileNo, dynamicVar);
     expect(result.success).toBe(true);
   }
 
@@ -27,11 +30,11 @@ describe('2Factor tests', () => {
         VAR2: '987465',
       },
     ]
-    assert2FactorSuccess(twoFactoConfig, 9925653371, dynamicVar);
+    await assert2FactorSuccess(9925653371, dynamicVar);
   });
 
   it('should send message with no dynamic variables', async () => {
     const dynamicVar = [] as object[];
-    assert2FactorSuccess(twoFactoConfig, 9925653371, dynamicVar);
+    await assert2FactorSuccess(9925653371, dynamicVar);
   });
 })
