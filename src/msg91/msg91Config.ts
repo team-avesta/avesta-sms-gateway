@@ -1,5 +1,4 @@
-export interface Msg91Config  {
-    url: string,
+export interface Msg91Config {
     authKey: string,
     senderId: string,
     flowId: string

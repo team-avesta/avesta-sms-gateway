@@ -1,6 +1,6 @@
 {
   "name": "@avesta-oss/avesta-sms-gateway",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "configurable sms gateway",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

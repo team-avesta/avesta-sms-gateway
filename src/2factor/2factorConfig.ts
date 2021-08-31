@@ -1,5 +1,5 @@
 export interface TwoFactorConfig {
-    url: string,
+    apiKey: string,
     senderId: string,
     template: string
 }

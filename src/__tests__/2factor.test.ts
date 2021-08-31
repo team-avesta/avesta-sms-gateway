@@ -9,17 +9,14 @@ describe('2Factor tests', () => {
 
   mockedAxios.request.mockResolvedValue(Promise.resolve({ success: true }));
 
-  const twoFactoConfig = {
-    url: 'https://www.google.com',
+  const twoFactor = new TwoFactor({
+    apiKey: 'asd-1234-asd',
     senderId: 'MYSMSID',
     template: 'my-template',
-  };
-
-  const twoFactor = new TwoFactor(twoFactoConfig);
-  const smsSender = new SmsSender(twoFactor);
-
+  });
+  
   async function assert2FactorSuccess(mobileNo: number, dynamicVar: object[]) {
-    const result = await smsSender.sendSms(mobileNo, dynamicVar);
+    const result = await SmsSender.sendSms(twoFactor, mobileNo, dynamicVar);
     expect(result.success).toBe(true);
   }
 

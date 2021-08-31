@@ -8,12 +8,12 @@ export class TwoFactor extends SmsGateway {
 
     send(mobileNo: number, variables: object[]): Promise<any> {
         const options = {
-            url: this.config.url,
             method: 'POST',
+            url: `http://2factor.in/API/V1/${this.config.apiKey}/ADDON_SERVICES/SEND/TSMS`,
             data: {
-                To: mobileNo,
                 From: this.config.senderId,
-                TemplateName: this.config.template
+                TemplateName: this.config.template,
+                To: mobileNo                
             }
         }
         if(variables.length > 0) {

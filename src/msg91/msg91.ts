@@ -8,12 +8,16 @@ export class Msg91 extends SmsGateway {
 
     send(mobileNo: number, variables: any[]): Promise<any> {
         const options = {
-            url: this.config.url,
             method: 'POST',
+            url: 'https://api.msg91.com/api/v5/flow/',
             data: {
-                mobiles: mobileNo,
                 sender: this.config.senderId,
-                flow_id: this.config.flowId
+                flow_id: this.config.flowId,
+                mobiles: mobileNo
+            },
+            headers: {
+                'authkey': this.config.authKey,
+                'content-type': 'application/JSON'
             }
         }
         if (variables.length > 0) {
