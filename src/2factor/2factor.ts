@@ -29,3 +29,7 @@ export class TwoFactor extends SmsGateway {
        return this.smsRequest(options);
     }
 }
+
+export default {
+    TwoFactor
+}

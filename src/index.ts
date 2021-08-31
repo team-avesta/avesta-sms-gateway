@@ -7,3 +7,7 @@ export class SmsSender {
         return this.smsGateway.send(mobile, variables);
     }
 }
+
+export default {
+    SmsSender
+}

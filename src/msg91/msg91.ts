@@ -31,3 +31,7 @@ export class Msg91 extends SmsGateway {
         return this.smsRequest(options);
     }
 }
+
+export default {
+    Msg91
+}
