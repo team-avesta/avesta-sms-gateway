@@ -2,25 +2,18 @@ import { SmsGateway } from '../SmsGateway';
 import { TwoFactorConfig } from './2factorConfig';
 
 export class TwoFactor extends SmsGateway {
-    url: string;
-    senderId: string;
-    template: string;
-    
-    constructor(config: TwoFactorConfig) {
+    constructor(private config: TwoFactorConfig) {
         super();
-        this.url = config.url;
-        this.senderId = config.senderId;
-        this.template = config.template; 
     }
 
     send(mobileNo: number, variables: object[]): Promise<any> {
         const options = {
-            url: this.url,
+            url: this.config.url,
             method: 'POST',
             data: {
                 To: mobileNo,
-                From: this.senderId,
-                TemplateName: this.template
+                From: this.config.senderId,
+                TemplateName: this.config.template
             }
         }
         if(variables.length > 0) {
@@ -28,8 +21,4 @@ export class TwoFactor extends SmsGateway {
         }
        return this.smsRequest(options);
     }
-}
-
-export default {
-    TwoFactor
 }
