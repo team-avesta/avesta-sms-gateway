@@ -1,4 +1,6 @@
 import { SmsGateway } from "./SmsGateway";
+import { TwoFactor } from './2factor/2factor';
+import { Msg91 } from './msg91/msg91';
 
 export class SmsSender {
     constructor(private smsGateway:SmsGateway) {}
@@ -9,5 +11,7 @@ export class SmsSender {
 }
 
 export default {
-    SmsSender
+    SmsSender,
+    TwoFactor,
+    Msg91
 }
